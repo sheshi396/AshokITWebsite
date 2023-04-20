@@ -30,15 +30,15 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public String unlockAccount(UnlockForm form) {
 
-		String dummyPassword = form.getTempPassword();
+		String tempPassword = form.getTempPassword();
 		String newPassword = form.getNewPassword();
 		String confirmPassword = form.getConfirmPassword();
+		String email = form.getEmail();
+		UserDTLS user = userRepo.findByEmail(email);
 
-		UserDTLS user = new UserDTLS();
-
-		String savedDummyPassword = user.getPassword();
-		if (!dummyPassword.equals(savedDummyPassword)) {
-			return "Invalid dummy password";
+		String savedTempPassword = user.getPassword();
+	if (!tempPassword.equals(savedTempPassword)) {
+		return "Invalid dummy password";
 		}
 
 		if (!newPassword.equals(confirmPassword)) {
@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
 
 		// set the new password and save the user
 		user.setPassword(newPassword);
+		user.setAccStatus("Active");
 		userRepo.save(user);
 
 		return "Account unlocked successfully";

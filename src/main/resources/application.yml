@@ -11,7 +11,17 @@ spring:
       hibernate:
        globally_quoted_identifiers:true
    show-sql: true 
-   
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: Sheshiravula396@gmail.com
+    password: ciuopeoupujgokqs
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true    
    
    
 
