@@ -82,25 +82,24 @@
 									</div>
 
 									<form action="/unlock" th:object="${unlock}" method="POST">
-                                          <div class="form-outline mb-4">
-											<input type="email" name="email" id="form2Example22"
-												class="form-control" /> <label class="form-label"
-												for="form2Example22">Email</label>
+                                          <div class="form-outline mb-6">
+											<h6>Your Email : <p th:text="${unlock.email}"></p></h6>
+											<input type="hidden" th:field="${unlock.email}">
 										</div>
 
-										<div class="form-outline mb-3">
+										<div class="form-outline mb-4">
 											<input type="password" name="tempPassword" id="form2Example22"
 												class="form-control" /> <label class="form-label"
 												for="form2Example22">Temporary Password</label>
 										</div>
 
-										<div class="form-outline mb-3">
+										<div class="form-outline mb-4">
 											<input type="password" name="newPassword" id="form2Example22"
 												class="form-control" /> <label class="form-label"
 												for="form2Example22">New Password</label>
 										</div>
 										
-										<div class="form-outline mb-3">
+										<div class="form-outline mb-4">
 											<input type="password" name="confirmPassword" id="form2Example22"
 												class="form-control" /> <label class="form-label"
 												for="form2Example22">Confirm Password</label>

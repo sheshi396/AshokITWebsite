@@ -1,5 +1,7 @@
 package com.Spring.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,11 +22,24 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private EmailUtils emailUtils;
+	@Autowired
+	private HttpSession session;
 
 	@Override
 	public String login(LoginForm form) {
-		return null;
+		UserDTLS entity = userRepo.findByEmailAndPassword(form.getEmail(), form.getPassword());
 
+		if (entity == null) {
+			return "Invalid Credentials";
+		}
+
+		if (entity.getAccStatus().equals("LOCKED")) {
+			return "You have not unlocked your account, please check your email";
+		}
+		//set session for user 
+		session.setAttribute("userId", entity.getUserId());
+
+		return "success";
 	}
 
 	@Override
@@ -37,8 +52,8 @@ public class UserServiceImpl implements UserService {
 		UserDTLS user = userRepo.findByEmail(email);
 
 		String savedTempPassword = user.getPassword();
-	if (!tempPassword.equals(savedTempPassword)) {
-		return "Invalid dummy password";
+		if (!tempPassword.equals(savedTempPassword)) {
+			return "Invalid dummy password";
 		}
 
 		if (!newPassword.equals(confirmPassword)) {
@@ -47,16 +62,25 @@ public class UserServiceImpl implements UserService {
 
 		// set the new password and save the user
 		user.setPassword(newPassword);
-		user.setAccStatus("Active");
+		user.setAccStatus("ACTIVE");
 		userRepo.save(user);
 
 		return "Account unlocked successfully";
 	}
 
 	@Override
-	public String forgotPassword(String email) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean forgotPassword(String email) {
+		UserDTLS entity = userRepo.findByEmail(email);
+		if (entity == null) {
+			return false;
+		}
+
+		String subject = "Recover Password";
+		String body = "Your Password is  : " + entity.getPassword();
+
+		emailUtils.sendEmail(email, subject, body);
+
+		return true;
 	}
 
 	@Override

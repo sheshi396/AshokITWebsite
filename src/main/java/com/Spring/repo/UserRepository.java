@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<UserDTLS, Integer> {
 
 	UserDTLS findByEmail(String email);
 
+	UserDTLS findByEmailAndPassword(String email, String password);
+
 }

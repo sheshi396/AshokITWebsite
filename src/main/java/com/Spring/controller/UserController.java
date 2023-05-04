@@ -1,5 +1,7 @@
 package com.Spring.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,26 +22,25 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	private UserRepository userRepo;
+	@Autowired
+	private HttpSession session;
 
 	@GetMapping("/login")
-	public String loginPage() {
+	public String loginPage(Model model) {
+		model.addAttribute("user", new LoginForm());
 		return "login";
 	}
 
 	@PostMapping("/login")
-	public String login(@ModelAttribute("loginForm") LoginForm form, Model model) {
-		String email = form.getEmail();
-		String password = form.getPassword();
-
-		// validate user credentials against the database
-		UserDTLS user = userRepo.findByEmail(email);
-		if (user == null || !user.getPassword().equals(password)) {
-			model.addAttribute("error", "Invalid email or password");
-			return "login";
-		}
-
-		// user is valid, redirect to dashboard page
-		return "dashboard";
+	public String login(@ModelAttribute("login") LoginForm form, Model model) {
+		String status = userService.login(form);
+		if (status.contains("success")) {
+			return "redirect:/dashboard";
+		} 
+		
+		model.addAttribute("errorMessage",status);
+		
+		return "login";
 	}
 
 	@PostMapping("/signup")
@@ -69,21 +70,50 @@ public class UserController {
 		return "unlock";
 
 	}
+
 	@PostMapping("/unlock")
 	public String handleUnlockAccountForm(@ModelAttribute("unlock") UnlockForm form, Model model) {
-		
+
 		userService.unlockAccount(form);
-		
-		
+
 		return "login";
-		
+
 	}
-	
-	
 
 	@GetMapping("/forgot")
 	public String forgotPassword() {
 		return "forgot";
 	}
+
+	@PostMapping("/forgotPassword")
+	public String forgothandle(@RequestParam("email") String email, Model model) {
+		System.out.println(email);
+
+		boolean status = userService.forgotPassword(email);
+
+		if (status) {
+			model.addAttribute("successMsg", "Your Password has been sent to your email");
+		} else {
+			model.addAttribute("errorMsg", "No Record Found with that email");
+		}
+		return "forgot";
+	}
+	@GetMapping("/logout")
+	public String logout( ) {
+		session.invalidate();
+		return "index";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

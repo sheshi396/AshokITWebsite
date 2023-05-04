@@ -6,17 +6,15 @@ import com.Spring.binding.UnlockForm;
 import com.Spring.entity.UserDTLS;
 
 public interface UserService {
-	
-	public String login(LoginForm form);
-	
-	public boolean signUp(SignUpForm form);
-	
-	public String unlockAccount(UnlockForm form);
-	
-	public String forgotPassword(String email);
 
-	
-	
-	
+//	public boolean login(LoginForm form);
+
+	public String login(LoginForm form);
+
+	public boolean signUp(SignUpForm form);
+
+	public String unlockAccount(UnlockForm form);
+
+	public boolean forgotPassword(String email);
 
 }

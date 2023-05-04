@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 
 <head>
 <meta charset="UTF-8" />
@@ -57,16 +58,16 @@
 										<h4 class="mt-1 mb-5 pb-1">Add Student Enquriy Here</h4>
 									</div>
 
-									<form>
+									<form action="/add-enquiry" th:object="${enqform}" method="POST">
 										<div class="form-outline mb-4">
 											<input type="email" id="form2Example11" class="form-control"
-												placeholder="Student Name" /> <label class="form-label"
+											name="studentName"	placeholder="Student Name" /> <label class="form-label"
 												for="form2Example11">Student Name</label>
 										</div>
 
 										<div class="form-outline mb-4">
 											<input type="email" id="form2Example11" class="form-control"
-												placeholder="Student Name" /> <label class="form-label"
+											name="phone"	placeholder="Student Name" /> <label class="form-label"
 												for="form2Example11">Contact Number</label>
 										</div>
 

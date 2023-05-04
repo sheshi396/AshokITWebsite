@@ -8,13 +8,13 @@ import com.Spring.binding.EnquiryForm;
 
 public interface EnquiryService {
 	
-	public List<String> getCourseNames();
+	public List<String> getCourses();
 	
 	public List<String> getEnquiryStatus();
 	
 	public DashBoard getDashboardData(Integer userId);
 	
-	public String addEnquiry(EnquiryForm form);
+	public boolean addEnquiry(EnquiryForm form);
 	
 	public EnquiryForm getEnquiry(Integer enquiryId);
 	

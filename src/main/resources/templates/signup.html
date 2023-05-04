@@ -84,6 +84,9 @@
 
 									<form action="/signup" th:object="${user}" method="POST">
 										<p>Please create account here</p>
+										
+									<div th:text="${message}"></div>
+									<div th:text="${errorMessage}"></div>
 
 										<div class="form-outline mb-4">
 											<input type="text" name="userName"id="form2Example11" class="form-control"
